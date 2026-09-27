@@ -1,0 +1,251 @@
+"""
+WanderSync · API Gateway unificado.
+Toda interacción del frontend con el backend pasa por este esquema.
+"""
+scalar JSON
+
+type Query {
+  "Usuario autenticado de la sesión actual (null si es anónimo)."
+  me: User
+  "Últimas búsquedas de la sesión (existe también para visitantes anónimos)."
+  recentSearches: [String!]!
+  "Ventanas de viaje con catálogo disponible (resultado de la ingesta Dask)."
+  destinations: [TripWindow!]!
+  """
+  Consolidación de disponibilidad de un paquete: vuelos + hoteles + autos de la
+  misma ventana. Cada lista solo se consulta si el cliente la pide, y cada
+  servicio lee solo las columnas solicitadas (sin over-fetching).
+  """
+  packageSearch(searchKey: String!): PackageSearch!
+  order(id: ID!): Order
+  myOrders: [Order!]!
+  ingestionRuns(limit: Int = 5): [IngestionRun!]!
+  platformLinks: PlatformLinks!
+}
+
+type Mutation {
+  register(input: RegisterInput!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+  logout: Boolean!
+  "Crea la orden y dispara la SAGA orquestada de reserva (asíncrona)."
+  bookPackage(input: BookPackageInput!): Order!
+  "Dispara el flow de Prefect de ingesta distribuida (Dask) con caos opcional."
+  triggerIngestion(chaosFailRate: Float = 0): IngestionTrigger!
+}
+
+# ----------------------------------------------------------------- identidad --
+type User {
+  id: ID!
+  email: String!
+  fullName: String!
+  createdAt: String!
+  lastLoginAt: String
+}
+
+type AuthPayload {
+  user: User!
+  "Siempre true: el id de sesión se regenera tras autenticar (anti Session Fixation)."
+  sessionRegenerated: Boolean!
+}
+
+input RegisterInput {
+  email: String!
+  fullName: String!
+  password: String!
+}
+
+# ------------------------------------------------------------------ catálogo --
+type TripWindow {
+  searchKey: String!
+  origin: String!
+  destination: String!
+  destinationName: String!
+  checkIn: String!
+  checkOut: String!
+  nights: Int!
+  flightOffers: Int!
+  hotelOffers: Int!
+  carOffers: Int!
+  minFlightPriceCop: Int
+  minHotelPriceCop: Int
+  minCarPriceCop: Int
+  scrapedAt: String
+}
+
+type PackageSearch {
+  searchKey: String!
+  flights(limit: Int = 10): [FlightOffer!]!
+  hotels(limit: Int = 10): [HotelOffer!]!
+  cars(limit: Int = 10): [CarOffer!]!
+  "Combinación más económica (1 viajero)."
+  cheapestPackage: PackageQuote
+}
+
+type PackageQuote {
+  flight: FlightOffer!
+  hotel: HotelOffer!
+  car: CarOffer!
+  totalCop: Int!
+}
+
+type FlightOffer {
+  id: ID!
+  searchKey: String
+  source: String
+  origin: String
+  destination: String
+  departureDate: String
+  returnDate: String
+  airline: String
+  operatedBy: String
+  stops: Int
+  departTime: String
+  arriveTime: String
+  durationMinutes: Int
+  originAirport: String
+  destinationAirport: String
+  "Precio ida y vuelta por persona (COP)."
+  priceCop: Int
+  seatsAvailable: Int
+  scrapedAt: String
+}
+
+type HotelOffer {
+  id: ID!
+  searchKey: String
+  source: String
+  cityCode: String
+  cityName: String
+  checkIn: String
+  checkOut: String
+  nights: Int
+  name: String
+  pricePerNightCop: Int
+  totalPriceCop: Int
+  rating: Float
+  reviews: Int
+  stars: Int
+  deal: String
+  amenities: String
+  imageUrl: String
+  detailUrl: String
+  roomsAvailable: Int
+  scrapedAt: String
+}
+
+type CarOffer {
+  id: ID!
+  searchKey: String
+  source: String
+  pickupCode: String
+  pickupLocation: String
+  pickupDate: String
+  dropoffDate: String
+  days: Int
+  model: String
+  category: String
+  provider: String
+  totalPriceCop: Int
+  passengers: Int
+  bags: Int
+  doors: String
+  transmission: String
+  score: Float
+  imageUrl: String
+  unitsAvailable: Int
+  scrapedAt: String
+}
+
+# ------------------------------------------------------------ órdenes / SAGA --
+enum FailureTarget {
+  NONE
+  FLIGHT
+  HOTEL
+  CAR
+  PAYMENT
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  CONFIRMED
+  COMPENSATED
+  FAILED
+}
+
+input BookPackageInput {
+  flightOfferId: ID!
+  hotelOfferId: ID!
+  carOfferId: ID!
+  travelers: Int = 1
+  "Modo demo: fuerza el fallo de un participante para ver las compensaciones."
+  simulateFailure: FailureTarget = NONE
+}
+
+type Order {
+  id: ID!
+  status: OrderStatus!
+  searchKey: String!
+  travelers: Int!
+  flightTotalCop: Int!
+  hotelTotalCop: Int!
+  carTotalCop: Int!
+  totalCop: Int!
+  simulateFailure: FailureTarget!
+  failureReason: String
+  paymentStatus: String
+  invoiceNumber: String
+  createdAt: String!
+  updatedAt: String!
+  flight: FlightOffer
+  hotel: HotelOffer
+  car: CarOffer
+  saga: SagaExecution
+}
+
+type SagaExecution {
+  status: String!
+  flowRunId: String
+  "Enlace directo al flow run en la UI de Prefect."
+  flowRunUrl: String
+  startedAt: String!
+  finishedAt: String
+  steps: [SagaStep!]!
+}
+
+type SagaStep {
+  step: String!
+  action: String!
+  status: String!
+  detail: JSON
+  at: String!
+}
+
+# ------------------------------------------------------------------- ingesta --
+type IngestionRun {
+  id: ID!
+  flowRunName: String
+  status: String!
+  chaosFailRate: Float
+  windows: Int
+  flights: Int
+  hotels: Int
+  cars: Int
+  failedTasks: Int
+  detail: JSON
+  startedAt: String
+  finishedAt: String
+  flowRunUrl: String
+}
+
+type IngestionTrigger {
+  flowRunId: ID!
+  flowRunName: String!
+  flowRunUrl: String!
+}
+
+type PlatformLinks {
+  prefectUrl: String!
+  daskDashboardUrl: String!
+  graphqlUrl: String!
+}

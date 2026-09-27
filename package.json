@@ -1,0 +1,23 @@
+{
+  "name": "wandersync-travel-solutions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WanderSync Travel Solutions — plataforma de empaquetamiento turístico dinámico (Parcial 2, Patrones Arquitectónicos Avanzados)",
+  "type": "module",
+  "workspaces": [
+    "packages/common",
+    "services/migrator",
+    "services/flights",
+    "services/hotels",
+    "services/cars",
+    "services/orders",
+    "services/gateway"
+  ],
+  "scripts": {
+    "audit": "npm audit --workspaces --include-workspace-root",
+    "test:security": "node scripts/security/security-tests.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

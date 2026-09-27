@@ -1,0 +1,38 @@
+
+Pruebas de seguridad contra http://127.0.0.1:8080/graphql
+
+1) Mitigación de Session Fixation
+✔ PASA  Un visitante anónimo recibe una sesión (id pre-autenticación)
+         wsid=s%3AcihgmLWa8RD0TQwC4BPDz…
+✔ PASA  Tras autenticarse el servidor emite un id de sesión NUEVO
+         antes=s%3AcihgmLWa8RD0TQwC…  después=s%3AjlWWZp_4MgJlwOVt…
+✔ PASA  El id de sesión anterior ya NO da acceso a la cuenta
+         me con id viejo -> {"me":null}
+✔ PASA  El id nuevo sí autentica al usuario
+✔ PASA  Cookie de sesión HttpOnly + SameSite=Strict
+         wsid=…; Path=/; Expires=Sun, 27 Sep 2026 21:37:38 GMT; HttpOnly; SameSite=Strict
+
+2) Almacenamiento de contraseñas con Argon2id
+✔ PASA  El hash es Argon2id con m=64 MiB, t=3, p=1
+         $argon2id$v=19$m=65536,p=1,t=3$eYi/wtX3xdvnd0cLErCF8g$bNgcMw…
+✔ PASA  La contraseña en claro no aparece en la base de datos
+
+3) Rate limiting en rutas sensibles
+✔ PASA  Login: tras 5 intentos fallidos se bloquea (anti fuerza bruta)
+         respuestas: UNAUTHENTICATED, UNAUTHENTICATED, UNAUTHENTICATED, UNAUTHENTICATED, UNAUTHENTICATED, TOO_MANY_REQUESTS, TOO_MANY_REQUESTS
+✔ PASA  Durante el bloqueo, ni la contraseña correcta entra
+✔ PASA  Checkout de reservas: máximo 5 por minuto por usuario
+         respuestas: BAD_USER_INPUT, BAD_USER_INPUT, BAD_USER_INPUT, BAD_USER_INPUT, BAD_USER_INPUT, TOO_MANY_REQUESTS
+
+4) Endurecimiento del endpoint GraphQL
+✔ PASA  CSRF prevention: GET simple sin cabecera de preflight es rechazado
+         HTTP 400
+✔ PASA  Límite de profundidad de consultas (máx. 6)
+         La consulta es demasiado profunda (7 > 6)
+✔ PASA  Consultas normales no se ven afectadas
+
+5) Servicios internos protegidos
+✔ PASA  Llamada a un microservicio interno sin x-internal-token -> 401
+         HTTP 401
+
+Todas las verificaciones de seguridad pasaron.

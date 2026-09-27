@@ -1,0 +1,46 @@
+Usuario de prueba: saga.kqb7io@wandersync.test
+Destino: Cali (BOG-CLO-2026-10-27-2026-10-30)
+
+✔ PASA  Escenario NONE → orden CONFIRMED · factura WS-2026-001001
+     → FLIGHT       SUCCESS
+     → HOTEL        SUCCESS
+     → CAR          SUCCESS
+     → PAYMENT      SUCCESS
+     → CONFIRMATION SUCCESS
+     inventario Δ sillas -1, habitaciones -1, autos -1 (consistente) · http://127.0.0.1:4200/runs/flow-run/721c693a-aed4-4ed5-a4e0-6b34157e8080
+
+✔ PASA  Escenario FLIGHT → orden COMPENSATED · Falló FLIGHT: Fallo simulado en el servicio de vuelos (modo demo)
+     → FLIGHT       reintento 1
+     → FLIGHT       reintento 2
+     → FLIGHT       FAILED
+     inventario Δ sillas 0, habitaciones 0, autos 0 (consistente) · http://127.0.0.1:4200/runs/flow-run/bb61d522-63b1-4e67-8e35-a874dd4524b9
+
+✔ PASA  Escenario HOTEL → orden COMPENSATED · Falló HOTEL: Fallo simulado en el servicio de hoteles (modo demo)
+     → FLIGHT       SUCCESS
+     → HOTEL        reintento 1
+     → HOTEL        reintento 2
+     → HOTEL        FAILED
+     ↩ FLIGHT       COMPENSATED
+     inventario Δ sillas 0, habitaciones 0, autos 0 (consistente) · http://127.0.0.1:4200/runs/flow-run/a414a77c-a790-4463-9681-126d5196dcaf
+
+✔ PASA  Escenario CAR → orden COMPENSATED · Falló CAR: Fallo simulado en el servicio de autos (modo demo)
+     → FLIGHT       SUCCESS
+     → HOTEL        SUCCESS
+     → CAR          reintento 1
+     → CAR          reintento 2
+     → CAR          FAILED
+     ↩ HOTEL        COMPENSATED
+     ↩ FLIGHT       COMPENSATED
+     inventario Δ sillas 0, habitaciones 0, autos 0 (consistente) · http://127.0.0.1:4200/runs/flow-run/8b604a99-9975-4988-a5c6-4827ad0fca5f
+
+✔ PASA  Escenario PAYMENT → orden COMPENSATED · Falló PAYMENT: Pago rechazado por la pasarela (modo demo)
+     → FLIGHT       SUCCESS
+     → HOTEL        SUCCESS
+     → CAR          SUCCESS
+     → PAYMENT      FAILED
+     ↩ CAR          COMPENSATED
+     ↩ HOTEL        COMPENSATED
+     ↩ FLIGHT       COMPENSATED
+     inventario Δ sillas 0, habitaciones 0, autos 0 (consistente) · http://127.0.0.1:4200/runs/flow-run/711a7ddd-bda6-487d-be27-83fd092d8ae4
+
+Todos los escenarios de la SAGA pasaron.

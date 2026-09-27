@@ -1,0 +1,294 @@
+# =============================================================================
+#  WanderSync Travel Solutions — despliegue completo con UN comando:
+#
+#      docker compose up --build
+#
+#  (Opcional, sin Supabase en la nube: docker compose --profile localdb up --build
+#   y DATABASE_URL apuntando a "db"; ver README.)
+#
+#  Redes:
+#    edge    -> lo único que toca el navegador: frontend (Nginx) y gateway.
+#    backend -> microservicios, orquestador, Prefect y clúster Dask.
+# =============================================================================
+
+x-db-env: &db-env
+  DATABASE_URL: ${DATABASE_URL:?Configura DATABASE_URL en .env (ver .env.example)}
+  PGSSL: ${PGSSL:-true}
+
+x-node-service: &node-service
+  restart: unless-stopped
+  networks: [backend]
+  depends_on:
+    migrator:
+      condition: service_completed_successfully
+
+x-node-health: &node-health
+  interval: 10s
+  timeout: 5s
+  start_period: 15s
+  retries: 5
+
+x-pipeline: &pipeline
+  build: ./pipeline
+  image: wandersync/pipeline:1.0.0
+  restart: unless-stopped
+  networks: [backend]
+  environment: &pipeline-env
+    <<: *db-env
+    PREFECT_API_URL: http://prefect-server:4200/api
+    DASK_SCHEDULER_ADDRESS: tcp://dask-scheduler:8786
+
+x-dask-worker: &dask-worker
+  <<: *pipeline
+  shm_size: 512m # Chromium (Selenium) usa memoria compartida
+  mem_limit: 2g
+  depends_on:
+    dask-scheduler:
+      condition: service_healthy
+    prefect-server:
+      condition: service_healthy
+
+services:
+  # ------------------------------------------------------------ base de datos
+  # Solo con --profile localdb: misma imagen de Postgres que usa Supabase
+  # (incluye pg_graphql). Por defecto se usa Supabase en la nube.
+  db:
+    image: supabase/postgres:17.6.1.177
+    profiles: [localdb]
+    environment:
+      POSTGRES_PASSWORD: ${LOCAL_DB_PASSWORD:-postgres}
+    ports:
+      - "127.0.0.1:54322:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks: [backend]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-h", "localhost"]
+      interval: 5s
+      retries: 20
+
+  migrator:
+    build:
+      context: .
+      dockerfile: docker/node-service.Dockerfile
+      args: { SERVICE: migrator }
+    image: wandersync/migrator:1.0.0
+    environment:
+      <<: *db-env
+    networks: [backend]
+    restart: "no"
+
+  # ------------------------------------------- orquestación y observabilidad
+  prefect-server:
+    <<: *pipeline
+    command: ["prefect", "server", "start", "--host", "0.0.0.0"]
+    environment:
+      PREFECT_SERVER_API_HOST: 0.0.0.0
+      # La UI corre en el navegador: necesita una URL alcanzable desde el host.
+      PREFECT_UI_API_URL: ${PUBLIC_PREFECT_URL:-http://127.0.0.1:4200}/api
+      # El contenedor corre sin root: la UI se genera en un directorio escribible.
+      PREFECT_UI_STATIC_DIRECTORY: /home/wander/.prefect/ui
+    ports:
+      - "4200:4200"
+    volumes:
+      - prefect-data:/home/wander/.prefect
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:4200/api/health"]
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 10
+
+  # -------------------------------------------------- computación distribuida
+  dask-scheduler:
+    <<: *pipeline
+    command: ["dask", "scheduler", "--host", "0.0.0.0", "--dashboard-address", ":8787"]
+    ports:
+      - "8787:8787" # Dask Dashboard
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8787/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  dask-worker-1:
+    <<: *dask-worker
+    command: ["dask", "worker", "tcp://dask-scheduler:8786", "--name", "dask-worker-1", "--nthreads", "2", "--memory-limit", "1.8GB"]
+
+  dask-worker-2:
+    <<: *dask-worker
+    command: ["dask", "worker", "tcp://dask-scheduler:8786", "--name", "dask-worker-2", "--nthreads", "2", "--memory-limit", "1.8GB"]
+
+  dask-worker-3:
+    <<: *dask-worker
+    command: ["dask", "worker", "tcp://dask-scheduler:8786", "--name", "dask-worker-3", "--nthreads", "2", "--memory-limit", "1.8GB"]
+
+  # Publica el flow de ingesta como deployment de Prefect (programado + bajo
+  # demanda) y ejecuta las corridas; las tareas corren en los workers Dask.
+  ingestion:
+    <<: *pipeline
+    command: ["python", "-m", "wandersync.serve"]
+    environment:
+      <<: *pipeline-env
+      INGESTION_RUN_ON_STARTUP: ${INGESTION_RUN_ON_STARTUP:-true}
+      INGESTION_INTERVAL_MINUTES: ${INGESTION_INTERVAL_MINUTES:-360}
+      INGESTION_DAYS_AHEAD: ${INGESTION_DAYS_AHEAD:-30}
+      INGESTION_NIGHTS: ${INGESTION_NIGHTS:-3}
+    depends_on:
+      migrator:
+        condition: service_completed_successfully
+      prefect-server:
+        condition: service_healthy
+      dask-worker-1:
+        condition: service_started
+      dask-worker-2:
+        condition: service_started
+      dask-worker-3:
+        condition: service_started
+
+  # ------------------------------------------------------------ microservicios
+  flights:
+    <<: *node-service
+    build:
+      context: .
+      dockerfile: docker/node-service.Dockerfile
+      args: { SERVICE: flights }
+    image: wandersync/flights:1.0.0
+    environment:
+      <<: *db-env
+      PORT: 4101
+      INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN:?Configura INTERNAL_API_TOKEN en .env}
+    healthcheck:
+      <<: *node-health
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4101/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+
+  hotels:
+    <<: *node-service
+    build:
+      context: .
+      dockerfile: docker/node-service.Dockerfile
+      args: { SERVICE: hotels }
+    image: wandersync/hotels:1.0.0
+    environment:
+      <<: *db-env
+      PORT: 4102
+      INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN}
+    healthcheck:
+      <<: *node-health
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4102/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+
+  cars:
+    <<: *node-service
+    build:
+      context: .
+      dockerfile: docker/node-service.Dockerfile
+      args: { SERVICE: cars }
+    image: wandersync/cars:1.0.0
+    environment:
+      <<: *db-env
+      PORT: 4103
+      INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN}
+    healthcheck:
+      <<: *node-health
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4103/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+
+  orders:
+    <<: *node-service
+    build:
+      context: .
+      dockerfile: docker/node-service.Dockerfile
+      args: { SERVICE: orders }
+    image: wandersync/orders:1.0.0
+    environment:
+      <<: *db-env
+      PORT: 4104
+      INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN}
+      FLIGHTS_URL: http://flights:4101
+      HOTELS_URL: http://hotels:4102
+      CARS_URL: http://cars:4103
+      ORCHESTRATOR_URL: http://saga-orchestrator:4040
+    healthcheck:
+      <<: *node-health
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4104/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+
+  # Orquestador de la SAGA: cada reserva es un flow run de Prefect.
+  saga-orchestrator:
+    build: ./services/saga-orchestrator
+    image: wandersync/saga-orchestrator:1.0.0
+    restart: unless-stopped
+    networks: [backend]
+    environment:
+      <<: *db-env
+      PREFECT_API_URL: http://prefect-server:4200/api
+      INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN}
+      FLIGHTS_URL: http://flights:4101
+      HOTELS_URL: http://hotels:4102
+      CARS_URL: http://cars:4103
+      ORDERS_URL: http://orders:4104
+      SAGA_STEP_DELAY_SECONDS: ${SAGA_STEP_DELAY_SECONDS:-1.5}
+    depends_on:
+      migrator:
+        condition: service_completed_successfully
+      prefect-server:
+        condition: service_healthy
+
+  # ------------------------------------------------------ API Gateway GraphQL
+  gateway:
+    <<: *node-service
+    build:
+      context: .
+      dockerfile: docker/node-service.Dockerfile
+      args: { SERVICE: gateway }
+    image: wandersync/gateway:1.0.0
+    networks: [edge, backend]
+    ports:
+      - "4000:4000" # Apollo Sandbox para explorar el esquema
+    environment:
+      <<: *db-env
+      PORT: 4000
+      SESSION_SECRET: ${SESSION_SECRET:?Configura SESSION_SECRET en .env}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN}
+      FLIGHTS_URL: http://flights:4101
+      HOTELS_URL: http://hotels:4102
+      CARS_URL: http://cars:4103
+      ORDERS_URL: http://orders:4104
+      ORCHESTRATOR_URL: http://saga-orchestrator:4040
+      PREFECT_API_URL: http://prefect-server:4200/api
+      PUBLIC_PREFECT_URL: ${PUBLIC_PREFECT_URL:-http://127.0.0.1:4200}
+      PUBLIC_DASK_URL: ${PUBLIC_DASK_URL:-http://127.0.0.1:8787/status}
+      PUBLIC_GRAPHQL_URL: ${PUBLIC_GRAPHQL_URL:-http://127.0.0.1:4000/graphql}
+    depends_on:
+      migrator:
+        condition: service_completed_successfully
+      flights:
+        condition: service_healthy
+      hotels:
+        condition: service_healthy
+      cars:
+        condition: service_healthy
+      orders:
+        condition: service_healthy
+    healthcheck:
+      <<: *node-health
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+
+  # ----------------------------------------------------------------- frontend
+  frontend:
+    build: ./frontend
+    image: wandersync/frontend:1.0.0
+    restart: unless-stopped
+    networks: [edge]
+    ports:
+      - "8080:8080"
+    depends_on:
+      gateway:
+        condition: service_healthy
+
+networks:
+  edge:
+  backend:
+
+volumes:
+  prefect-data:
+  db-data:
