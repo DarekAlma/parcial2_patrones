@@ -3,8 +3,7 @@
 #
 #      docker compose up --build
 #
-#  (Opcional, sin Supabase en la nube: docker compose --profile localdb up --build
-#   y DATABASE_URL apuntando a "db"; ver README.)
+#  Base de datos: Supabase en la nube (DATABASE_URL en .env, Session pooler).
 #
 #  Redes:
 #    edge    -> lo único que toca el navegador: frontend (Nginx) y gateway.
@@ -49,24 +48,7 @@ x-dask-worker: &dask-worker
       condition: service_healthy
 
 services:
-  # ------------------------------------------------------------ base de datos
-  # Solo con --profile localdb: misma imagen de Postgres que usa Supabase
-  # (incluye pg_graphql). Por defecto se usa Supabase en la nube.
-  db:
-    image: supabase/postgres:17.6.1.177
-    profiles: [localdb]
-    environment:
-      POSTGRES_PASSWORD: ${LOCAL_DB_PASSWORD:-postgres}
-    ports:
-      - "127.0.0.1:54322:5432"
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    networks: [backend]
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres", "-h", "localhost"]
-      interval: 5s
-      retries: 20
-
+  # Aplica db/migrations en Supabase y termina.
   migrator:
     build:
       context: .
@@ -291,4 +273,3 @@ networks:
 
 volumes:
   prefect-data:
-  db-data:

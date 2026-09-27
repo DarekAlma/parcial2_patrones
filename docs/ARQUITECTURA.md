@@ -107,7 +107,7 @@ flowchart TB
 | Orquestador SAGA | Python 3.11 + FastAPI + Prefect 3 | La SAGA es un flow de Prefect: observabilidad nativa |
 | Ingesta | Python 3.11 + Dask 2026.8 + Prefect 3.8 + prefect-dask + Selenium + BeautifulSoup + pandas | Stack de datos estándar |
 | Persistencia | Supabase (Postgres 17 + `pg_graphql`) | GraphQL nativo en la base de datos, requisito §3.3 |
-| Contenedores | Docker Compose, 14 servicios (+1 BD local opcional), 2 redes | `docker compose up` |
+| Contenedores | Docker Compose, 14 servicios, 2 redes | `docker compose up` |
 
 ---
 
@@ -239,8 +239,7 @@ select graphql.resolve($1, $2::jsonb)
 ```
 
 Ventajas: es el mismo motor que Supabase expone en `/graphql/v1`, pero **sin API keys adicionales**, dentro del
-pool de conexiones del servicio y funcionando igual con Supabase en la nube o con la imagen local
-`supabase/postgres`. Las **escrituras transaccionales** (reservas con `SELECT … FOR UPDATE`, decrementos de inventario)
+pool de conexiones del servicio y con la misma conexión TLS que usan las escrituras. Las **escrituras transaccionales** (reservas con `SELECT … FOR UPDATE`, decrementos de inventario)
 y las **agregaciones** se hacen en SQL, porque requieren control de transacción que GraphQL no ofrece.
 
 ### 4.3 Sin over-fetching de punta a punta
@@ -551,15 +550,15 @@ Detalle y evidencias en [SEGURIDAD.md](SEGURIDAD.md).
 
 ## 9. Despliegue con Docker Compose
 
-- **Un comando**: `docker compose up --build` construye 9 imágenes y levanta 14 contenedores (15 con el perfil `localdb`).
+- **Un comando**: `docker compose up --build` construye 9 imágenes y levanta 14 contenedores.
 - **Orden garantizado** con `depends_on` + `healthcheck`: migrator (completado) → servicios de dominio (healthy) →
   gateway (healthy) → frontend; prefect-server (healthy) → scheduler (healthy) → workers → ingestion.
 - **Imagen única del plano de datos** (`wandersync/pipeline`) para Prefect, scheduler, workers e ingestion: Dask exige
   versiones idénticas en cliente, scheduler y workers.
 - **Imagen genérica Node** ([`docker/node-service.Dockerfile`](../docker/node-service.Dockerfile)) parametrizada con
   `--build-arg SERVICE`, multi-stage y `npm ci --omit=dev` por workspace.
-- **Perfil `localdb`**: Postgres local con la imagen oficial `supabase/postgres` (incluye `pg_graphql`), para trabajar
-  sin internet o como respaldo en la sustentación.
+- **Base de datos en Supabase**: los servicios se conectan por el *Session pooler* (IPv4, TLS); el `migrator` crea
+  los esquemas al arrancar, sin pasos manuales en el panel de Supabase.
 
 ---
 
@@ -575,8 +574,8 @@ Detalle y evidencias en [SEGURIDAD.md](SEGURIDAD.md).
 
 ### ADR-02 · pg_graphql invocado por SQL
 - **Decisión**: los servicios leen el catálogo con `graphql.resolve()` desde su pool de conexiones.
-- **Por qué**: GraphQL nativo de la base (requisito §3.3) sin exponer keys de Supabase ni depender de PostgREST; funciona
-  igual en la nube y en local. **Alternativa descartada**: llamar `/graphql/v1` con la service key desde cada servicio
+- **Por qué**: GraphQL nativo de la base (requisito §3.3) sin exponer keys de Supabase ni depender de PostgREST; evita
+  una segunda vía de acceso a la base. **Alternativa descartada**: llamar `/graphql/v1` con la service key desde cada servicio
   (más latencia, secreto adicional).
 
 ### ADR-03 · Fuentes reales verificadas en lugar de mocks

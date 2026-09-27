@@ -218,7 +218,7 @@ Los reportes crudos (JSON y texto) están en [`docs/security/reports/`](security
 | **Versiones fijadas** (`==`) en Python y **lockfiles** (`package-lock.json`) en Node | `requirements.txt`, `package-lock.json` |
 | **`npm ci`** en las imágenes: instala exactamente el lockfile y falla si no coincide | `docker/node-service.Dockerfile`, `frontend/Dockerfile` |
 | `npm ci --omit=dev` y **solo las dependencias del servicio** (`--workspace`) | Imagen de cada microservicio |
-| Imágenes base oficiales y fijadas (`node:22-slim`, `python:3.11-slim-bookworm`, `nginx-unprivileged:1.27-alpine`, `supabase/postgres:17.6.1.177`) | Dockerfiles / compose |
+| Imágenes base oficiales y fijadas (`node:22-slim`, `python:3.11-slim-bookworm`, `nginx-unprivileged:1.27-alpine`) | Dockerfiles / compose |
 | Chromium y chromedriver desde el repositorio firmado de Debian (sin descargas en tiempo de ejecución) | `pipeline/Dockerfile` |
 | Compatibilidad fijada tras detectar un fallo por actualización transitiva (SQLAlchemy 2.1 rompía el scheduler de Prefect) → `sqlalchemy==2.0.54` | `pipeline/requirements.txt` |
 | Auditoría repetible con un comando | `scripts/security/audit.ps1` / `audit.sh` |

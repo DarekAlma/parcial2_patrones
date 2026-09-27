@@ -4,7 +4,7 @@ import { logger } from './logger.js';
 const { Pool } = pg;
 
 /**
- * Pool de conexiones a Postgres (Supabase o local).
+ * Pool de conexiones a Postgres de Supabase.
  * PGSSL=true exige TLS, como requiere Supabase.
  */
 export function createPool({ max = 5 } = {}) {

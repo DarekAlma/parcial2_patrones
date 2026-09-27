@@ -14,7 +14,7 @@ El enunciado exige evidenciar en vivo:
 ## Antes de la sustentación (checklist, 30 min antes)
 
 - [ ] Docker Desktop abierto con ≥ 8 GB de RAM.
-- [ ] `.env` con `DATABASE_URL` de Supabase (o el respaldo local, ver [Plan B](#plan-b--si-algo-falla)).
+- [ ] `.env` con `DATABASE_URL` de Supabase (Session pooler) y `PGSSL=true`.
 - [ ] Levantar todo y esperar la primera ingesta:
 
   ```bash
@@ -197,7 +197,7 @@ Recorrer la salida:
 
 | Problema en vivo | Qué hacer |
 |---|---|
-| **Sin internet o Supabase no responde** | Tener un `.env.local` con `DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres` y `PGSSL=false`: `docker compose down` → copiar `.env.local` a `.env` → `docker compose --profile localdb up -d`. La ingesta necesita internet para el scraping; sin internet mostrar corridas previas en Prefect. |
+| **Supabase no responde** | Revisar el estado del proyecto en el panel de Supabase (los proyectos gratuitos se pausan por inactividad: reactivarlo el día anterior) y `docker compose logs migrator`. Tener internet estable: Supabase y el scraping lo requieren. |
 | **Una fuente devuelve 0 resultados (bloqueo o cambio de HTML)** | Es el caso previsto: Prefect reintenta y la corrida queda `PARTIAL`. Explicarlo como demostración de resiliencia. El catálogo de la corrida anterior sigue disponible. |
 | **La UI de Prefect no carga** | Usar `127.0.0.1` y no `localhost`. |
 | **El catálogo aparece vacío** | La primera ingesta aún corre: `docker compose logs -f ingestion`. |

@@ -13,8 +13,8 @@ alter table public.hotel_offers   enable row level security;
 alter table public.car_offers     enable row level security;
 alter table public.ingestion_runs enable row level security;
 
--- Las políticas se crean solo si existen los roles de Supabase; así la misma
--- migración funciona también en un Postgres local sin esos roles.
+-- Las políticas se crean solo si existen los roles de Supabase (anon,
+-- authenticated), para que la migración sea idempotente y segura.
 do $$
 declare
   t text;

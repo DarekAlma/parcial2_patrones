@@ -10,7 +10,7 @@ despliega con **un solo comando de Docker Compose**.
 
 | Tecnología obligatoria | Dónde está |
 |---|---|
-| 🐳 **Docker Compose** | [`docker-compose.yml`](docker-compose.yml): 14 contenedores (15 con la BD local), 2 redes, healthchecks, un comando |
+| 🐳 **Docker Compose** | [`docker-compose.yml`](docker-compose.yml): 14 contenedores, 2 redes, healthchecks, un comando |
 | 🔷 **GraphQL** | Gateway Apollo en [`services/gateway`](services/gateway) + `pg_graphql` de Supabase en los microservicios |
 | 🔁 **Patrón SAGA** | Orquestación con compensaciones en [`services/saga-orchestrator/app/saga.py`](services/saga-orchestrator/app/saga.py) |
 | ⚡ **Dask** | Scheduler + 3 workers ejecutando scraping, limpieza y carga en [`pipeline/`](pipeline) |
@@ -47,7 +47,7 @@ flowchart LR
 
 ### Requisitos
 - **Docker Desktop** (≥ 8 GB de RAM asignados; el clúster usa ~6 GB con los 3 workers con Chromium).
-- Una base de datos: **Supabase** (recomendado) o el Postgres local incluido (perfil `localdb`).
+- Un proyecto de **Supabase** (Postgres + `pg_graphql`), requerido por el enunciado.
 - Node 20+ solo si quieres correr los scripts de verificación desde el host.
 
 ### 1. Configurar variables
@@ -73,13 +73,6 @@ Completa en `.env`:
 
 ```bash
 docker compose up --build
-```
-
-**Alternativa sin Supabase** (sin internet para la BD o como respaldo de la demo): en `.env` usa
-`DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres` y `PGSSL=false`, y levanta con:
-
-```bash
-docker compose --profile localdb up --build
 ```
 
 La primera construcción tarda ~5–8 min (Chromium y dependencias de Python). Al arrancar, el servicio `ingestion`
@@ -178,7 +171,7 @@ docker compose logs -f saga-orchestrator            # logs de la SAGA
 docker compose logs -f dask-worker-1 dask-worker-2  # logs de los workers
 docker compose restart ingestion                    # re-publica el deployment y dispara una ingesta
 docker compose down                                 # detener (conserva volúmenes)
-docker compose down -v                              # detener y borrar volúmenes (Prefect, BD local)
+docker compose down -v                              # detener y borrar volúmenes (historial de Prefect)
 ```
 
 ## Solución de problemas

@@ -3,8 +3,7 @@
  * con la función `graphql.resolve(query, variables)`.
  *
  * Es el mismo motor que Supabase expone en /graphql/v1, pero invocado por la
- * conexión SQL del servicio: no necesita API keys adicionales y funciona igual
- * contra Supabase en la nube o contra la imagen local supabase/postgres.
+ * conexión SQL del servicio: no necesita API keys adicionales.
  */
 export async function pgGraphql(pool, query, variables = {}) {
   const { rows } = await pool.query('select graphql.resolve($1, $2::jsonb) as result', [
