@@ -3,6 +3,8 @@
 **Plataforma de Empaquetamiento Turístico Dinámico** — Parcial práctico del segundo corte de *Patrones Arquitectónicos
 Avanzados*.
 
+Miembros: Valentina Ruiz Torres y Darek Aljuri Martinez
+
 Arma paquetes **vuelo + hotel + auto** con **precios reales** extraídos de Google Flights, Google Hotels y Kayak por un
 clúster de **Dask** orquestado con **Prefect**, los expone por un **API Gateway GraphQL** y los reserva con el
 **patrón SAGA**, que compensa automáticamente cualquier fallo para que nunca queden "reservas huérfanas". Todo se
