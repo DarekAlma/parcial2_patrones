@@ -1,0 +1,101 @@
+{
+  "title": "Elige el mundo visual de WanderSync",
+  "question": "El sorteo asignó «Tablero de salidas El Dorado». Quédate con él, toma una alternativa o vuelve a sortear.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Tablero de salidas El Dorado",
+      "kicker": "THE ROLL",
+      "lineage": "Tableros split-flap (Solari) de los aeropuertos de los 70–90",
+      "thesis": "Tu paquete es un vuelo más en el tablero: cada pieza aterriza confirmada o se cancela entera.",
+      "palette": ["#16171a", "#2a2c31", "#f1e9d6", "#f2b632", "#d64933", "#2f9e6e"],
+      "materials": ["placas split-flap de aluminio negro", "letras de vinilo marfil", "luz ámbar de terminal"],
+      "viewport": "Un tablero de salidas a todo el ancho con los 4 destinos como filas que giran letra a letra; debajo, la fotografía real del hotel elegido y el precio del paquete en placas.",
+      "risk": "Si se exagera el gimmick, la compra se siente como una consola y no como una agencia premium.",
+      "raised": [
+        {"from": "brand-identity-canon-saville-catalog-sleeve", "raise": "Cada paquete y cada orden reciben un código de catálogo (WS-CTG-1027) que hace de titular."},
+        {"from": "rw-manual-acetate-tab-board", "raise": "Un color de destino por sección y cambios de estado en dos fotogramas, sin easing, como el giro de una placa."},
+        {"from": "variable-font-specimen", "raise": "Jerarquía solo por contraste de escala: precios enormes, etiquetas diminutas."}
+      ],
+      "hero": "https://impeccable.style/worlds/cards/digital-design-canon-metro-typographic-tiles-hero.webp"
+    },
+    {
+      "id": "model-pick",
+      "label": "Bono de viaje de agencia",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "Vouchers y tiquetes de agencias de viaje colombianas, con troquel y sellos de goma",
+      "thesis": "El paquete es un bono impreso: se sella CONFIRMADO o ANULADO, nunca a medias.",
+      "palette": ["#0f3b5f", "#f4efe4", "#c8102e", "#e3a72f"],
+      "materials": ["papel de seguridad con guilloché", "sellos de tinta", "troquel perforado"],
+      "viewport": "El bono abierto a todo el ancho con talones desprendibles para vuelo, hotel y auto; el sello de estado cae sobre él al reservar.",
+      "risk": "Es la dirección donde aterrizan la mayoría de las corridas de viajes: familiar y algo de papelería."
+    },
+    {
+      "id": "challenger-metro",
+      "label": "Mosaicos Metro",
+      "verdict": "declined",
+      "lineage": "Interfaz Metro: campos de color planos y tipografía gigante",
+      "thesis": "Los destinos como mosaicos vivos que giran con datos frescos.",
+      "palette": ["#000000", "#00aba9", "#ffffff"],
+      "materials": ["mosaicos planos", "tipografía cortada en el borde"],
+      "viewport": "Panorama horizontal de destinos en mosaicos.",
+      "case": "Fusiona bien la ingesta en vivo, pero el viajero no se identifica con un sistema operativo y pierde claridad de compra.",
+      "kept": "Borrar el chrome: el color y la tipografía son la interfaz.",
+      "risk": "Se lee como un tema de Windows Phone.",
+      "hero": "https://impeccable.style/worlds/cards/digital-design-canon-metro-typographic-tiles-hero.webp"
+    },
+    {
+      "id": "challenger-saville",
+      "label": "Catálogo Factory",
+      "verdict": "declined",
+      "lineage": "Identidad de catálogo de Factory Records",
+      "thesis": "Cada paquete como un número de catálogo sobre negro mate.",
+      "palette": ["#0d0d0d", "#ffffff", "#e63946"],
+      "materials": ["negro mate", "trazos blancos"],
+      "viewport": "Índice de números de catálogo.",
+      "case": "Elegante, pero esconde precios y destinos: el viajero no compra códigos.",
+      "kept": "Cada orden lleva un código de catálogo como titular.",
+      "risk": "Críptico para una compra.",
+      "hero": "https://impeccable.style/worlds/cards/brand-identity-canon-saville-catalog-sleeve-hero.webp"
+    },
+    {
+      "id": "challenger-acetate",
+      "label": "Manual con pestañas",
+      "verdict": "declined",
+      "lineage": "Manuales de software en caja con separadores de color",
+      "thesis": "Las secciones como pestañas de color de un manual.",
+      "palette": ["#e8682a", "#f2c230", "#2c5ec7", "#f4f4f0"],
+      "materials": ["acetato", "cartulina de color"],
+      "viewport": "Manual abierto en la sección del destino.",
+      "case": "Sistema riguroso, pero nada en él dice viaje.",
+      "kept": "Un color por sección y transiciones en dos fotogramas sin easing.",
+      "risk": "Lectura de oficina, no de vacaciones.",
+      "hero": "https://impeccable.style/worlds/cards/rw-manual-acetate-tab-board-hero.webp"
+    },
+    {
+      "id": "challenger-specimen",
+      "label": "Espécimen tipográfico",
+      "verdict": "declined",
+      "lineage": "Especímenes de fuentes variables",
+      "thesis": "Precios y destinos como letras gigantes.",
+      "palette": ["#fafaf7", "#111111", "#ff4d00"],
+      "materials": ["papel blanco", "tinta negra"],
+      "viewport": "Un destino en tipografía enorme.",
+      "case": "Ni el viajero ni el jurado reconocen su mundo aquí.",
+      "kept": "Jerarquía solo por contraste de escala.",
+      "risk": "Ejercicio de estilo sin función.",
+      "hero": "https://impeccable.style/worlds/cards/variable-font-specimen-hero.webp"
+    }
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "canon": true,
+  "canonCard": {
+    "label": "El estándar de la categoría",
+    "thesis": "Una OTA tipo Booking/Despegar ejecutada con todo el oficio.",
+    "palette": ["#ffffff", "#0b1f3a", "#0071c2"],
+    "materials": ["grilla limpia", "fotografía de producto"],
+    "viewport": "Buscador arriba, resultados en tarjetas y resumen lateral.",
+    "risk": "Indistinguible de la competencia por diseño."
+  },
+  "steer": true
+}

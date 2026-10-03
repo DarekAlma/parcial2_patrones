@@ -1,3 +1,4 @@
+import { ChevronDown, ChevronUp, Braces } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { OperationEntry, subscribeOperations } from '../apollo';
 
@@ -18,8 +19,9 @@ export function Inspector() {
 
   return (
     <aside className={open ? 'inspector open' : 'inspector'}>
-      <button className="inspector-toggle" onClick={() => setOpen(!open)}>
-        GraphQL · {ops.length} ops {open ? '▾' : '▴'}
+      <button className="inspector-toggle" onClick={() => setOpen(!open)} aria-expanded={open}>
+        <Braces size={15} aria-hidden="true" /> GraphQL · {ops.length} ops
+        {open ? <ChevronDown size={15} aria-hidden="true" /> : <ChevronUp size={15} aria-hidden="true" />}
       </button>
       {open && (
         <div className="inspector-body">

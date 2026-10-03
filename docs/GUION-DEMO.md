@@ -56,10 +56,16 @@ Opcional: mostrar el diagrama de contenedores en [ARQUITECTURA.md](ARQUITECTURA.
 
 ## Paso 2 · Ingesta distribuida en Dask (b) (3 min)
 
-1. En el frontend → pestaña **Ingesta de datos**.
-2. Mover el control **"Tasa de fallos de red simulados" a 30 %**.
-3. Clic en **Ejecutar ingesta ahora**.
-4. Cambiar de inmediato a la pestaña del **Dask Dashboard** (`/status`).
+> **Importante:** el Dask Dashboard solo muestra tareas *mientras* corren; al terminar la corrida, el scheduler
+> las libera y `/status` queda vacío. Sin pausa, toda la ingesta dura ~18 s en Dask. Por eso `.env` trae
+> `INGESTION_DEMO_PAUSE_SECONDS=8` (pausa antes de cada extracción, registrada en los logs como "pausa de demo"),
+> que deja ~35–40 s de actividad visible. Súbela a 15 si quieres más margen; ponla en 0 fuera de la demo.
+
+1. Abrir **primero** el **Dask Dashboard** (`http://127.0.0.1:8787/status`) en otra pestaña.
+2. En el frontend → pestaña **Ingesta de datos**, mover **"Tasa de fallos de red simulados" a 30 %**.
+3. Clic en **Ejecutar ingesta ahora** y cambiar de inmediato a la pestaña de Dask.
+4. Para ver el historial después de que termine: `http://127.0.0.1:8787/tasks` (Task Stream ampliado) y
+   `http://127.0.0.1:8787/workers` (CPU y memoria de cada worker).
 
 **Qué se ve:** en *Task Stream* aparecen barras en las filas de los 3 workers al mismo tiempo; en *Progress*, las
 barras `extraer` (12) y `transformar_y_cargar`.

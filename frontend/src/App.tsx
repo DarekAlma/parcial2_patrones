@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
+import { LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { AuthDialog } from './components/AuthDialog';
 import { Inspector } from './components/Inspector';
@@ -35,43 +36,56 @@ export default function App() {
   }
 
   return (
-    <div className="shell">
-      <header className="topbar">
-        <div className="brand">
-          <span className="brand-mark">🧭</span>
-          <div>
-            <strong>WanderSync</strong>
-            <small>Travel Solutions</small>
+    <div className="shell" data-tab={tab}>
+      <header className="jacket">
+        <div className="jacket-row">
+          <div className="letterhead">
+            <svg className="letterhead-mark" viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M5 23 L16 7 L27 23" fill="none" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
+              <circle cx="16" cy="25" r="2.6" className="letterhead-dot" />
+            </svg>
+            <div>
+              <strong>WanderSync</strong>
+              <span>Travel Solutions · Agencia de viajes · Bogotá</span>
+            </div>
+          </div>
+          <div className="session">
+            {user ? (
+              <>
+                <span className="traveler" title={user.email}>
+                  <span className="traveler-label">Viajero</span>
+                  {user.fullName}
+                </span>
+                <button className="icon-btn" onClick={signOut} aria-label="Cerrar sesión" title="Cerrar sesión">
+                  <LogOut size={18} strokeWidth={1.8} />
+                </button>
+              </>
+            ) : (
+              <button className="btn-paper" onClick={() => setAuthOpen(true)}>
+                Iniciar sesión
+              </button>
+            )}
           </div>
         </div>
-        <nav className="tabs" aria-label="Secciones">
+        <nav className="folder-tabs" aria-label="Secciones">
           {TABS.map((t) => (
-            <button key={t.id} className={tab === t.id ? 'tab active' : 'tab'} onClick={() => setTab(t.id)}>
+            <button
+              key={t.id}
+              className={tab === t.id ? 'folder-tab active' : 'folder-tab'}
+              aria-current={tab === t.id ? 'page' : undefined}
+              onClick={() => setTab(t.id)}
+            >
               {t.label}
             </button>
           ))}
         </nav>
-        <div className="session">
-          {user ? (
-            <>
-              <span className="user-chip" title={user.email}>
-                {user.fullName}
-              </span>
-              <button className="ghost" onClick={signOut}>
-                Salir
-              </button>
-            </>
-          ) : (
-            <button className="primary" onClick={() => setAuthOpen(true)}>
-              Iniciar sesión
-            </button>
-          )}
-        </div>
       </header>
 
-      <main className="content">
+      <main className="desk">
         {tab === 'packages' && <PackagesPage user={user} onNeedAuth={() => setAuthOpen(true)} onBooked={openOrder} />}
-        {tab === 'orders' && <OrdersPage user={user} focusId={focusOrder} onFocus={setFocusOrder} onNeedAuth={() => setAuthOpen(true)} />}
+        {tab === 'orders' && (
+          <OrdersPage user={user} focusId={focusOrder} onFocus={setFocusOrder} onNeedAuth={() => setAuthOpen(true)} />
+        )}
         {tab === 'ingestion' && <IngestionPage user={user} onNeedAuth={() => setAuthOpen(true)} />}
       </main>
 

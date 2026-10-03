@@ -36,6 +36,9 @@ DEFAULT_DESTINATIONS = [
 DEFAULT_DAYS_AHEAD = int(os.environ.get("INGESTION_DAYS_AHEAD", "30"))
 DEFAULT_NIGHTS = int(os.environ.get("INGESTION_NIGHTS", "3"))
 DEFAULT_MAX_PER_SOURCE = int(os.environ.get("INGESTION_MAX_PER_SOURCE", "12"))
+# Pausa opcional por extracción (segundos) para observar en vivo el reparto de
+# tareas en el Dask Dashboard durante la demo. 0 = sin pausa.
+DEFAULT_DEMO_PAUSE = float(os.environ.get("INGESTION_DEMO_PAUSE_SECONDS", "0"))
 
 
 @dataclass(frozen=True)

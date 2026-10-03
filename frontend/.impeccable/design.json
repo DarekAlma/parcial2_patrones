@@ -1,0 +1,660 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-03T16:04:29.516532+00:00",
+  "title": "Design System: WanderSync Travel Solutions",
+  "extensions": {
+    "colorMeta": {
+      "jacket": {
+        "role": "primary",
+        "displayName": "Marino de carpeta",
+        "canonical": "#0e2a47",
+        "tonalRamp": [
+          "#0d2640",
+          "#16426f",
+          "#1f5d9e",
+          "#2879cc",
+          "#5598dd",
+          "#88b7e7",
+          "#bbd6f2",
+          "#eaf2fb"
+        ]
+      },
+      "jacket-2": {
+        "role": "primary",
+        "displayName": "Marino de solapa",
+        "canonical": "#163a60",
+        "tonalRamp": [
+          "#0e263e",
+          "#19416c",
+          "#235d9a",
+          "#2e78c7",
+          "#5997d9",
+          "#8bb6e4",
+          "#bdd6f0",
+          "#eaf2fa"
+        ]
+      },
+      "jacket-line": {
+        "role": "primary",
+        "displayName": "Filete marino",
+        "canonical": "#2b5480",
+        "tonalRamp": [
+          "#132639",
+          "#214163",
+          "#2f5d8d",
+          "#3e78b7",
+          "#6697cc",
+          "#94b6db",
+          "#c2d5ea",
+          "#ecf2f9"
+        ]
+      },
+      "on-jacket": {
+        "role": "primary",
+        "displayName": "Papel sobre marino",
+        "canonical": "#e8f0f7",
+        "tonalRamp": [
+          "#142739",
+          "#224462",
+          "#31618c",
+          "#3f7eb6",
+          "#689cca",
+          "#95bada",
+          "#c2d8ea",
+          "#ecf3f8"
+        ]
+      },
+      "on-jacket-soft": {
+        "role": "primary",
+        "displayName": "Papel sobre marino tenue",
+        "canonical": "#a9c0d6",
+        "tonalRamp": [
+          "#192734",
+          "#2b435a",
+          "#3d5f80",
+          "#4f7ba6",
+          "#759abd",
+          "#9eb8d1",
+          "#c8d7e5",
+          "#eef2f7"
+        ]
+      },
+      "desk": {
+        "role": "neutral",
+        "displayName": "Escritorio",
+        "canonical": "#e7ecf0",
+        "tonalRamp": [
+          "#1d272f",
+          "#334452",
+          "#496174",
+          "#5e7e97",
+          "#819cb1",
+          "#a7b9c8",
+          "#cdd7e0",
+          "#eff3f5"
+        ]
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Hoja",
+        "canonical": "#fbfcfc",
+        "tonalRamp": [
+          "#212c2c",
+          "#394c4c",
+          "#516c6c",
+          "#698c8c",
+          "#8aa8a8",
+          "#adc2c2",
+          "#d0dcdc",
+          "#f0f4f4"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Regla",
+        "canonical": "#cfd8df",
+        "tonalRamp": [
+          "#1f272e",
+          "#354450",
+          "#4b6171",
+          "#627d93",
+          "#859cad",
+          "#a9b9c6",
+          "#ced7de",
+          "#f0f3f5"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "#12202e",
+        "tonalRamp": [
+          "#162637",
+          "#25425f",
+          "#355e88",
+          "#457ab0",
+          "#6c99c6",
+          "#98b8d7",
+          "#c4d6e8",
+          "#edf2f8"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Tinta tenue",
+        "canonical": "#4b5b6b",
+        "tonalRamp": [
+          "#20262d",
+          "#37424e",
+          "#4e5e6f",
+          "#657a90",
+          "#8799ab",
+          "#abb8c4",
+          "#cfd6dd",
+          "#f0f2f4"
+        ]
+      },
+      "voucher": {
+        "role": "secondary",
+        "displayName": "Papel de seguridad",
+        "canonical": "#e1edf6",
+        "tonalRamp": [
+          "#12293b",
+          "#1f4766",
+          "#2c6691",
+          "#3884bc",
+          "#62a1d0",
+          "#91bdde",
+          "#c0d9ec",
+          "#ebf3f9"
+        ]
+      },
+      "voucher-line": {
+        "role": "secondary",
+        "displayName": "Filete de guilloché",
+        "canonical": "#8fb2d0",
+        "tonalRamp": [
+          "#172736",
+          "#27445d",
+          "#386185",
+          "#487eac",
+          "#6f9cc3",
+          "#9abad5",
+          "#c6d7e7",
+          "#edf3f7"
+        ]
+      },
+      "tint-flight": {
+        "role": "secondary",
+        "displayName": "Celeste vuelo",
+        "canonical": "#d6e6f5",
+        "tonalRamp": [
+          "#0f273e",
+          "#1a446b",
+          "#256098",
+          "#307dc5",
+          "#5b9bd7",
+          "#8cb9e3",
+          "#bdd7ef",
+          "#eaf2fa"
+        ]
+      },
+      "tint-flight-ink": {
+        "role": "secondary",
+        "displayName": "Tinta vuelo",
+        "canonical": "#1d4f86",
+        "tonalRamp": [
+          "#0e253f",
+          "#18406d",
+          "#225b9b",
+          "#2c77c9",
+          "#5796db",
+          "#8ab5e6",
+          "#bcd5f0",
+          "#eaf2fa"
+        ]
+      },
+      "tint-hotel": {
+        "role": "secondary",
+        "displayName": "Rosa hotel",
+        "canonical": "#f6ddd7",
+        "tonalRamp": [
+          "#3e170e",
+          "#6c2918",
+          "#9a3a23",
+          "#c84b2d",
+          "#da7158",
+          "#e59c8a",
+          "#f0c6bc",
+          "#faedea"
+        ]
+      },
+      "tint-hotel-ink": {
+        "role": "secondary",
+        "displayName": "Tinta hotel",
+        "canonical": "#93382a",
+        "tonalRamp": [
+          "#3c1711",
+          "#67271d",
+          "#93382a",
+          "#be4936",
+          "#d26f60",
+          "#df9b90",
+          "#edc6c0",
+          "#f9edeb"
+        ]
+      },
+      "tint-car": {
+        "role": "secondary",
+        "displayName": "Menta auto",
+        "canonical": "#d7eee0",
+        "tonalRamp": [
+          "#173623",
+          "#285d3c",
+          "#388456",
+          "#49ac70",
+          "#70c290",
+          "#9bd4b1",
+          "#c6e7d3",
+          "#edf7f1"
+        ]
+      },
+      "tint-car-ink": {
+        "role": "secondary",
+        "displayName": "Tinta auto",
+        "canonical": "#1d6a43",
+        "tonalRamp": [
+          "#103c26",
+          "#1c6842",
+          "#29945e",
+          "#35c079",
+          "#5fd398",
+          "#8fe0b7",
+          "#bfedd6",
+          "#ebfaf2"
+        ]
+      },
+      "tint-pay": {
+        "role": "secondary",
+        "displayName": "Lavanda pago",
+        "canonical": "#ece6f5",
+        "tonalRamp": [
+          "#231637",
+          "#3d265f",
+          "#563687",
+          "#7046af",
+          "#906dc5",
+          "#b199d6",
+          "#d3c5e8",
+          "#f1edf8"
+        ]
+      },
+      "tint-pay-ink": {
+        "role": "secondary",
+        "displayName": "Tinta pago",
+        "canonical": "#5a3f8f",
+        "tonalRamp": [
+          "#211735",
+          "#3a295c",
+          "#523a83",
+          "#6b4baa",
+          "#8c71c1",
+          "#af9cd3",
+          "#d1c6e6",
+          "#f1edf7"
+        ]
+      },
+      "stamp-ok": {
+        "role": "tertiary",
+        "displayName": "Tinta verde de sello",
+        "canonical": "#1e7a46",
+        "tonalRamp": [
+          "#0f3d23",
+          "#1a6a3d",
+          "#259757",
+          "#30c471",
+          "#5bd791",
+          "#8ce3b2",
+          "#beefd3",
+          "#ebfaf1"
+        ]
+      },
+      "stamp-void": {
+        "role": "tertiary",
+        "displayName": "Tinta roja de sello",
+        "canonical": "#c8102e",
+        "tonalRamp": [
+          "#470610",
+          "#7b0a1c",
+          "#af0e28",
+          "#e31234",
+          "#f0425e",
+          "#f47b8f",
+          "#f9b3bf",
+          "#fde7eb"
+        ]
+      },
+      "stamp-pending": {
+        "role": "tertiary",
+        "displayName": "Tinta azul de sello",
+        "canonical": "#1f4fa8",
+        "tonalRamp": [
+          "#0c1e41",
+          "#153570",
+          "#1d4b9f",
+          "#2661cf",
+          "#5384df",
+          "#86a9e9",
+          "#bacef2",
+          "#e9f0fb"
+        ]
+      },
+      "serial": {
+        "role": "tertiary",
+        "displayName": "Rojo de serie",
+        "canonical": "#c8102e",
+        "tonalRamp": [
+          "#470610",
+          "#7b0a1c",
+          "#af0e28",
+          "#e31234",
+          "#f0425e",
+          "#f47b8f",
+          "#f9b3bf",
+          "#fde7eb"
+        ]
+      },
+      "gold": {
+        "role": "tertiary",
+        "displayName": "Oro de foco",
+        "canonical": "#e3a72f",
+        "tonalRamp": [
+          "#433009",
+          "#755310",
+          "#a67616",
+          "#d89a1d",
+          "#e7b34b",
+          "#eeca81",
+          "#f5e1b7",
+          "#fcf5e9"
+        ]
+      },
+      "row-hover": {
+        "role": "neutral",
+        "displayName": "Fila resaltada",
+        "canonical": "#f1f5f8",
+        "tonalRamp": [
+          "#192833",
+          "#2c4558",
+          "#3f637e",
+          "#5280a3",
+          "#779ebb",
+          "#a0bbcf",
+          "#c9d8e4",
+          "#eef3f6"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Titular de la banda de destinos y portada de ingesta."
+      },
+      "code": {
+        "displayName": "Código",
+        "purpose": "Códigos IATA y total del paquete."
+      },
+      "headline": {
+        "displayName": "Encabezado",
+        "purpose": "Cajones, bitácora, diálogo, hoja vacía."
+      },
+      "title": {
+        "displayName": "Título impreso",
+        "purpose": "Título del propio documento (BONO DE VIAJE) en su cabecera."
+      },
+      "body": {
+        "displayName": "Cuerpo",
+        "purpose": "Nombres de oferta y párrafos."
+      },
+      "amount": {
+        "displayName": "Monto",
+        "purpose": "Precios en COP con cifras tabulares."
+      },
+      "label": {
+        "displayName": "Rótulo",
+        "purpose": "Rótulos de campo, cifra y columna."
+      },
+      "typed": {
+        "displayName": "Mecanografiado",
+        "purpose": "Fechas, horas, series, fuentes, bitácora y campos."
+      }
+    },
+    "shadows": [
+      {
+        "name": "papel-suelto",
+        "value": "0 2px 4px rgba(14,42,71,.08), 0 22px 44px -12px rgba(14,42,71,.35)",
+        "purpose": "El bono."
+      },
+      {
+        "name": "hoja-apoyada",
+        "value": "0 1px 2px rgba(14,42,71,.08), 0 10px 24px -14px rgba(14,42,71,.25)",
+        "purpose": "Tarifario."
+      },
+      {
+        "name": "tiquete-levantado",
+        "value": "0 12px 26px rgba(4,18,34,.35)",
+        "purpose": "Tiquete seleccionado."
+      },
+      {
+        "name": "boton-emision",
+        "value": "0 6px 14px rgba(14,42,71,.28)",
+        "purpose": "Botón Emitir en reposo; hover 0 10px 20px rgba(14,42,71,.32)."
+      },
+      {
+        "name": "foto-pegada",
+        "value": "0 0 0 4px #fff, 0 3px 8px 3px rgba(18,32,46,.16)",
+        "purpose": "Instantáneas de hotel y auto, rotadas ±1°."
+      },
+      {
+        "name": "filete-hoja",
+        "value": "inset 0 0 0 1px #cfd8df",
+        "purpose": "Contorno de hojas fijas; 2px marino al seleccionar."
+      },
+      {
+        "name": "dialogo",
+        "value": "0 30px 60px rgba(4,16,30,.45)",
+        "purpose": "Diálogo sobre el velo marino."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Curva única de transiciones y animaciones."
+      },
+      {
+        "name": "hover",
+        "value": "120-220ms",
+        "purpose": "Hover de filas, pestañas, tiquetes y botones."
+      },
+      {
+        "name": "stamp-down",
+        "value": "260ms; desde rotate(-14deg) scale(1.7) blur(2px)",
+        "purpose": "Golpe del sello al aparecer."
+      },
+      {
+        "name": "ink-pulse",
+        "value": "1.4s ease-in-out infinite; opacidad 0.55",
+        "purpose": "Sello EN TRÁMITE."
+      },
+      {
+        "name": "type-in",
+        "value": "240ms; clip-path de izquierda a derecha",
+        "purpose": "Línea nueva de la bitácora."
+      },
+      {
+        "name": "page-in",
+        "value": "380ms; opacidad 0.4 a 1",
+        "purpose": "Cambio de pestaña."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "1ms",
+        "purpose": "prefers-reduced-motion anula animaciones y transiciones."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1180px"
+      },
+      {
+        "name": "tablet",
+        "value": "820px"
+      },
+      {
+        "name": "phone",
+        "value": "600px"
+      },
+      {
+        "name": "narrow",
+        "value": "520px"
+      },
+      {
+        "name": "short-projector",
+        "value": "(min-width: 1181px) and (max-height: 860px)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón Emitir",
+      "kind": "button",
+      "refersTo": "button-issue",
+      "description": "Acción principal: reservar o emitir el bono.",
+      "html": "<button class=\"ds-btn-issue\">Reservar paquete</button>",
+      "css": ".ds-btn-issue{border:0;border-radius:10px;padding:15px 20px;background:#0e2a47;color:#e8f0f7;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;font-weight:750;font-stretch:112%;font-size:1.05rem;letter-spacing:.01em;box-shadow:0 6px 14px rgba(14,42,71,.28);transition:transform 140ms cubic-bezier(.16,1,.3,1),box-shadow 140ms,background 140ms;cursor:pointer}.ds-btn-issue:hover{background:#12365c;transform:translateY(-1px);box-shadow:0 10px 20px rgba(14,42,71,.32)}.ds-btn-issue:active{transform:translateY(1px)}.ds-btn-issue:focus-visible{outline:2px solid #e3a72f;outline-offset:2px}"
+    },
+    {
+      "name": "Botón fantasma",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Acción secundaria sobre papel.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">Ver en Prefect</a>",
+      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #0e2a47;border-radius:8px;padding:9px 14px;color:#0e2a47;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;font-weight:700;text-decoration:none}.ds-btn-ghost:hover{background:rgba(14,42,71,.06)}.ds-btn-ghost:focus-visible{outline:2px solid #e3a72f;outline-offset:2px}"
+    },
+    {
+      "name": "Campo mecanografiado",
+      "kind": "input",
+      "refersTo": "typed-field",
+      "description": "Campo sin caja: rótulo y línea base marina.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Correo</span><input value=\"viajero@correo.co\"></label>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:4px;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;background:#e1edf6;padding:20px}.ds-field-label{font-size:.68rem;font-weight:700;font-stretch:118%;letter-spacing:.09em;text-transform:uppercase;color:#4b5b6b}.ds-field input{font-family:'Courier Prime','Courier New',monospace;font-size:1.02rem;border:0;border-bottom:1.5px solid #0e2a47;border-radius:0;background:transparent;padding:6px 2px;color:#12202e}.ds-field input:focus{outline:none;border-bottom-color:#e3a72f;box-shadow:0 2px 0 #e3a72f}"
+    },
+    {
+      "name": "Pestañas de carpeta",
+      "kind": "nav",
+      "refersTo": "folder-tab",
+      "description": "Navegación principal sobre la carpeta marina.",
+      "html": "<nav class=\"ds-tabs\"><button class=\"ds-tab is-active\">Armar paquete</button><button class=\"ds-tab\">Mis reservas</button><button class=\"ds-tab\">Ingesta de datos</button></nav>",
+      "css": ".ds-tabs{display:flex;gap:6px;background:#0e2a47;padding:14px 16px 0}.ds-tab{border:0;background:rgba(255,255,255,.07);color:#a9c0d6;padding:11px 22px 10px;border-radius:10px 10px 0 0;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;font-weight:650;font-stretch:108%;font-size:.95rem;cursor:pointer;transition:background 160ms,color 160ms}.ds-tab:hover{color:#e8f0f7}.ds-tab.is-active{background:#163a60;color:#fff}.ds-tab:focus-visible{outline:2px solid #e3a72f;outline-offset:2px}"
+    },
+    {
+      "name": "Píldora de fecha",
+      "kind": "chip",
+      "refersTo": "date-pill",
+      "description": "Ventana de fechas sobre la banda marina.",
+      "html": "<div class=\"ds-pills\"><button class=\"ds-pill is-on\">27 de oct – 30 de oct · 3 noches</button><button class=\"ds-pill\">2 de nov – 5 de nov · 3 noches</button></div>",
+      "css": ".ds-pills{display:flex;gap:8px;background:#163a60;padding:16px}.ds-pill{font-family:'Courier Prime','Courier New',monospace;font-size:.86rem;border:1.5px solid #2b5480;background:transparent;color:#e8f0f7;border-radius:999px;padding:5px 14px;cursor:pointer}.ds-pill:hover{border-color:#a9c0d6}.ds-pill.is-on{background:#e8f0f7;border-color:#e8f0f7;color:#0e2a47}.ds-pill:focus-visible{outline:2px solid #e3a72f;outline-offset:2px}"
+    },
+    {
+      "name": "Tiquete de destino",
+      "kind": "card",
+      "refersTo": "ticket",
+      "description": "Selector de destino con muescas y código IATA.",
+      "html": "<div class=\"ds-band\"><button class=\"ds-ticket is-on\"><span class=\"ds-code\">CLO</span><span class=\"ds-side\"><b>Cali</b><span class=\"ds-dates\">27 de oct – 30 de oct</span><span class=\"ds-price\">$ 787.269</span></span></button><button class=\"ds-ticket\"><span class=\"ds-code\">CTG</span><span class=\"ds-side\"><b>Cartagena</b><span class=\"ds-dates\">27 de oct – 30 de oct</span><span class=\"ds-price\">$ 1.113.261</span></span></button></div>",
+      "css": ".ds-band{display:grid;grid-template-columns:1fr 1fr;gap:14px;background:#163a60;padding:22px}.ds-ticket{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:16px;text-align:left;border:0;padding:14px 14px 14px 18px;border-radius:8px;background:#0e2a47;color:#e8f0f7;box-shadow:inset 0 0 0 1px #2b5480;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;cursor:pointer;transition:transform 220ms cubic-bezier(.16,1,.3,1),background 220ms;-webkit-mask:radial-gradient(circle 8px at 0 50%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 8px at 100% 50%,transparent 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 8px at 0 50%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 8px at 100% 50%,transparent 98%,#000) right/51% 100% no-repeat}.ds-ticket:hover{transform:translateY(-2px);background:#0a2240}.ds-ticket.is-on{background:#e1edf6;color:#12202e;transform:translateY(-3px)}.ds-ticket:focus-visible{outline:2px solid #e3a72f;outline-offset:2px}.ds-code{font-size:2.3rem;font-weight:850;font-stretch:125%;letter-spacing:-.02em;line-height:1;padding-right:16px;border-right:1.5px dashed currentColor}.ds-ticket.is-on .ds-code{color:#0e2a47}.ds-side{display:flex;flex-direction:column;gap:2px}.ds-dates{font-family:'Courier Prime','Courier New',monospace;font-size:.8rem;opacity:.85}.ds-price{font-weight:800;font-variant-numeric:tabular-nums}.ds-ticket.is-on .ds-price{color:#c8102e}"
+    },
+    {
+      "name": "Talones del bono",
+      "kind": "custom",
+      "refersTo": "stub-flight",
+      "description": "Talones perforados teñidos por servicio.",
+      "html": "<div class=\"ds-voucher\"><div class=\"ds-stub ds-f\"><span><b>JetSMART</b><small>5:35 → 6:49</small></span><span class=\"ds-v\">$ 173.045</span></div><div class=\"ds-stub ds-h\"><span><b>Hotel del Oeste</b><small>3 noches</small></span><span class=\"ds-v\">$ 164.696</span></div><div class=\"ds-stub ds-c\"><span><b>Renault Sandero</b><small>3 días</small></span><span class=\"ds-v\">$ 449.528</span></div></div>",
+      "css": ".ds-voucher{background:#e1edf6;border-radius:4px;padding:18px 0 0;width:400px;overflow:hidden;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;box-shadow:0 2px 4px rgba(14,42,71,.08),0 22px 44px -12px rgba(14,42,71,.35)}.ds-stub{position:relative;display:flex;justify-content:space-between;align-items:center;padding:11px 22px;border-top:2px dashed rgba(14,42,71,.35);color:#12202e;transition:filter 160ms}.ds-stub::before,.ds-stub::after{content:'';position:absolute;top:-9px;width:16px;height:16px;border-radius:50%;background:#e7ecf0}.ds-stub::before{left:-8px}.ds-stub::after{right:-8px}.ds-stub span{display:flex;flex-direction:column}.ds-stub small{font-family:'Courier Prime','Courier New',monospace;font-size:.82rem;color:#4b5b6b}.ds-v{font-weight:800;font-variant-numeric:tabular-nums}.ds-f{background:#d6e6f5}.ds-h{background:#f6ddd7}.ds-c{background:#d7eee0}.ds-stub:hover{filter:brightness(1.03) saturate(1.1)}"
+    },
+    {
+      "name": "Sello de goma",
+      "kind": "custom",
+      "refersTo": "stamp",
+      "description": "Estado de reserva, talón o corrida.",
+      "html": "<div class=\"ds-stamps\"><span class=\"ds-stamp ds-ok\">Confirmado</span><span class=\"ds-stamp ds-void\">Anulado</span><span class=\"ds-stamp ds-pend\">En trámite</span></div>",
+      "css": ".ds-stamps{display:flex;gap:24px;padding:20px;background:#e1edf6}.ds-stamp{display:inline-flex;border:3px double currentColor;border-radius:6px;padding:3px 10px;font-family:'Archivo Variable','Archivo',system-ui,sans-serif;font-weight:850;font-stretch:125%;text-transform:uppercase;letter-spacing:.06em;transform:rotate(-6deg);mix-blend-mode:multiply;animation:ds-stamp 260ms cubic-bezier(.16,1,.3,1) both}.ds-ok{color:#1e7a46}.ds-void{color:#c8102e}.ds-pend{color:#1f4fa8}@keyframes ds-stamp{from{opacity:0;transform:rotate(-14deg) scale(1.7);filter:blur(2px)}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "El bono de agencia",
+    "overview": "WanderSync se ve como el mostrador de una agencia de viajes de papel: una carpeta azul marino que guarda documentos impresos. El paquete no es una grilla de tarjetas con un resumen lateral; es un bono en papel de seguridad celeste, con guilloché, microimpresión y número de serie en rojo, del que cuelgan talones perforados teñidos por tipo de servicio. Las tarifas se leen en un tarifario impreso de filas regladas, y el resultado de cada reserva se marca con sellos de goma. Todo lo que el sistema produce es un documento: el bono, la bitácora mecanografiada de la SAGA, la orden de actualización de la ingesta y el libro mayor de corridas.\n\nLa densidad es de oficina: filas regladas, columnas mecanografiadas y cifras grandes de ancho expandido, pensadas para leerse proyectadas a 1280–1440 px. Dos voces tipográficas reparten el trabajo: Archivo variable, expandida, pone los códigos IATA, montos y títulos; Courier Prime pone lo que una máquina de escribir llenaría (fechas, horas, fuentes, series, bitácora). El color estructural es marino; el color semántico vive en los tintes de los talones y en las tintas de sello.",
+    "keyCharacteristics": [
+      "Carpeta marina (cabecera, pestañas, banda de destinos) sobre un escritorio gris azulado; los documentos son las únicas superficies claras.",
+      "Un tinte por servicio, siempre el mismo: celeste vuelo, rosa hotel, menta auto, lavanda pago.",
+      "Estado expresado como sello de goma (borde doble, rotado, tinta con grano), nunca como chip de color plano.",
+      "Archivo con `wdth` 108–125 % para todo lo que es código, cifra o título; Courier Prime para lo llenado a máquina.",
+      "Perforaciones (bordes discontinuos y mordidas circulares) separan las piezas de un mismo documento."
+    ],
+    "rules": [
+      {
+        "name": "La regla del tinte fijo",
+        "body": "Un servicio tiene un solo tinte en todo el producto: vuelo es celeste, hotel rosa, auto menta, pago lavanda, en la pestaña, la hoja del tarifario, la fila seleccionada y el talón. No se reasignan ni se usan como decoración.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla de la tinta de sello",
+        "body": "Verde, rojo y azul de sello significan estado (hecho, anulado o fallido, en trámite) y nada más. Un elemento sin estado no se pinta con ellos, salvo el rojo de serie para numeración.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla de la carpeta",
+        "body": "El marino es estructura, no superficie de contenido: la carpeta enmarca y los documentos claros se apoyan en el escritorio o sobre la carpeta.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla de las dos voces",
+        "body": "Si una máquina de escribir lo llenaría (fecha, hora, serie, fuente, línea de bitácora, valor de campo), va en Courier Prime. Si está impreso en el formulario (código, monto, título, rótulo), va en Archivo. No se mezcla dentro del mismo dato.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla del ancho expandido",
+        "body": "Los códigos y montos grandes usan `font-stretch` 112–125 % y pesos 800–850; el cuerpo se queda en 100 %. El ancho es jerarquía, no adorno.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla de las cifras tabulares",
+        "body": "Todo monto en COP lleva `font-variant-numeric: tabular-nums` y alineación a la derecha en columnas.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla del papel suelto",
+        "body": "Solo un documento que se puede \"tomar\" del escritorio lleva sombra de despegue; las hojas fijas y las filas se separan con filetes.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** emitir cada paquete como un bono: guilloché, microimpresión, número de serie rojo en Courier Prime y talones perforados por servicio.",
+      "**Do** respetar el tinte fijo de cada servicio (celeste vuelo, rosa hotel, menta auto, lavanda pago) en pestaña, hoja, fila seleccionada y talón.",
+      "**Do** comunicar el estado de una reserva, talón o corrida con un sello de goma en tinta verde, roja o azul.",
+      "**Do** poner fechas, horas, fuentes, series y bitácora en Courier Prime, y códigos, montos y títulos en Archivo expandida con cifras tabulares.",
+      "**Do** separar las piezas de un documento con perforaciones y reglas discontinuas, y las cabeceras de tabla con un filete sólido marino o de tinta.",
+      "**Do** teñir todas las sombras con marino y reservarlas para papeles sueltos.",
+      "**Do** usar oro solo para foco, selección y estrellas."
+    ],
+    "donts": [
+      "**Don't** volver a la grilla OTA de tarjetas de oferta con un resumen lateral genérico; el resumen es el bono.",
+      "**Don't** usar las tintas de sello para decorar elementos sin estado.",
+      "**Don't** mostrar estados como chips planos de color de fondo; son sellos o texto en tinta de sello.",
+      "**Don't** encajonar los campos de formulario; son líneas base mecanografiadas.",
+      "**Don't** poner un rótulo pequeño en mayúsculas encima de un encabezado como antetítulo; el rótulo en mayúsculas es para nombrar campos, cifras y columnas, y el título impreso solo encabeza el propio documento.",
+      "**Don't** cargar fuentes desde un CDN; Archivo y Courier Prime van empaquetadas localmente."
+    ]
+  }
+}

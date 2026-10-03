@@ -14,6 +14,8 @@ reportan estados y logs al servidor de Prefect.
 """
 from __future__ import annotations
 
+import time
+
 from prefect import flow, get_run_logger, task
 from prefect.artifacts import create_markdown_artifact, create_table_artifact
 from prefect.cache_policies import NO_CACHE
@@ -25,6 +27,7 @@ from wandersync import storage
 from wandersync.config import (
     DASK_SCHEDULER_ADDRESS,
     DEFAULT_DAYS_AHEAD,
+    DEFAULT_DEMO_PAUSE,
     DEFAULT_MAX_PER_SOURCE,
     DEFAULT_NIGHTS,
     DEFAULT_ORIGIN,
@@ -94,12 +97,15 @@ def registrar_inicio(run_id: str, run_name: str, chaos_fail_rate: float, windows
     # espera de Kayak 45 s).
     cache_policy=NO_CACHE,
 )
-def extraer(source: str, window: dict, chaos_fail_rate: float) -> dict:
+def extraer(source: str, window: dict, chaos_fail_rate: float, pausa_demo: float = 0.0) -> dict:
     logger = get_run_logger()
     worker = _worker_name()
     trip = _window_from_dict(window)
     logger.info("[%s] worker=%s scraping %s", source, worker, trip.search_key)
 
+    if pausa_demo > 0:
+        logger.info("[%s] pausa de demo de %.0f s en %s", source, pausa_demo, worker)
+        time.sleep(pausa_demo)
     maybe_inject_failure(chaos_fail_rate, SOURCE_LABEL[source])
     rows = SCRAPERS[source].scrape(trip)
 
@@ -155,6 +161,7 @@ def ingesta_turistica(
     nights: int = DEFAULT_NIGHTS,
     chaos_fail_rate: float = 0.0,
     max_per_source: int = DEFAULT_MAX_PER_SOURCE,
+    pausa_demo_segundos: float = DEFAULT_DEMO_PAUSE,
 ) -> dict:
     """Extrae vuelos, hoteles y autos de fuentes reales y los persiste en Supabase."""
     logger = get_run_logger()
@@ -174,7 +181,7 @@ def ingesta_turistica(
     extractions = {}
     for window in windows:
         for source in SCRAPERS:
-            future = extraer.submit(source, window.to_dict(), chaos_fail_rate)
+            future = extraer.submit(source, window.to_dict(), chaos_fail_rate, pausa_demo_segundos)
             extractions[future] = (source, window)
 
     # Pipeline: apenas termina una extracción se somete su carga, sin esperar

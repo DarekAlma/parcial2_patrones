@@ -1,5 +1,6 @@
 import { useApolloClient, useMutation } from '@apollo/client';
-import { FormEvent, useState } from 'react';
+import { X } from 'lucide-react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { errorMessage } from '../format';
 import { LOGIN, REGISTER } from '../graphql';
 
@@ -9,8 +10,16 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
   const [login, loginState] = useMutation(LOGIN);
   const [register, registerState] = useMutation(REGISTER);
   const client = useApolloClient();
+  const first = useRef<HTMLInputElement>(null);
   const error = loginState.error || registerState.error;
   const loading = loginState.loading || registerState.loading;
+
+  useEffect(() => {
+    first.current?.focus();
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mode, onClose]);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -32,21 +41,24 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
     setForm({ ...form, [key]: e.target.value });
 
   return (
-    <div className="backdrop" role="dialog" aria-modal="true" onClick={onClose}>
-      <form className="dialog" onSubmit={submit} onClick={(e) => e.stopPropagation()}>
-        <h2>{mode === 'login' ? 'Iniciar sesión' : 'Crear cuenta'}</h2>
+    <div className="backdrop" onClick={onClose}>
+      <form className="card-form" role="dialog" aria-modal="true" aria-labelledby="auth-title" onSubmit={submit} onClick={(e) => e.stopPropagation()}>
+        <button type="button" className="icon-btn on-paper close" onClick={onClose} aria-label="Cerrar">
+          <X size={18} />
+        </button>
+        <h2 id="auth-title">{mode === 'login' ? 'Iniciar sesión' : 'Crear cuenta'}</h2>
         {mode === 'register' && (
-          <label>
-            Nombre completo
-            <input value={form.fullName} onChange={set('fullName')} required minLength={2} autoComplete="name" />
+          <label className="typed-field">
+            <span className="field-label">Nombre completo</span>
+            <input ref={first} value={form.fullName} onChange={set('fullName')} required minLength={2} autoComplete="name" />
           </label>
         )}
-        <label>
-          Correo
-          <input type="email" value={form.email} onChange={set('email')} required autoComplete="email" />
+        <label className="typed-field">
+          <span className="field-label">Correo</span>
+          <input ref={mode === 'login' ? first : undefined} type="email" value={form.email} onChange={set('email')} required autoComplete="email" />
         </label>
-        <label>
-          Contraseña
+        <label className="typed-field">
+          <span className="field-label">Contraseña</span>
           <input
             type="password"
             value={form.password}
@@ -58,14 +70,10 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
         </label>
         {mode === 'register' && <p className="hint">Mínimo 10 caracteres, con letras y números. Se guarda con Argon2id.</p>}
         {error && <p className="error">{errorMessage(error)}</p>}
-        <button className="primary block" disabled={loading}>
+        <button className="btn-issue" disabled={loading}>
           {loading ? 'Procesando…' : mode === 'login' ? 'Entrar' : 'Registrarme'}
         </button>
-        <button
-          type="button"
-          className="link"
-          onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-        >
+        <button type="button" className="link" onClick={() => setMode(mode === 'login' ? 'register' : 'login')}>
           {mode === 'login' ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
         </button>
       </form>

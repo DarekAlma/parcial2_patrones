@@ -31,6 +31,7 @@ HOTEL_HTML = """
 <span>3 noches con impuestos y tasas</span><span>24% menos de lo habitual</span><span>4.7</span><span>(186)</span>
 <span>Hotel de 3 estrellas</span><span>Servicios que ofrece Hotel Casa Santafé: Wi-Fi gratuito, Desayuno</span></div>
 <div class="uaTTDe"><h2>Hotel Casa Santafé</h2><span>COP 90,000</span></div>
+<div class="uaTTDe"><h2>—</h2><span>COP 80,000</span></div>
 """
 
 CAR_HTML = """

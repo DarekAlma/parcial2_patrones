@@ -52,7 +52,8 @@ def build_url(window: TripWindow) -> str:
 
 def parse_card(card, nights_expected: int) -> dict | None:
     name_el = card.select_one("h2")
-    if not name_el:
+    # Google a veces renderiza tarjetas con un título de relleno ("—").
+    if not name_el or not re.search(r"[^\W\d_]", name_el.get_text()):
         return None
     text = card.get_text(" | ", strip=True)
     price = _PRICE.search(text)

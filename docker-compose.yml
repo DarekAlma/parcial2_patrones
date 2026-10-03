@@ -116,6 +116,7 @@ services:
       INGESTION_INTERVAL_MINUTES: ${INGESTION_INTERVAL_MINUTES:-360}
       INGESTION_DAYS_AHEAD: ${INGESTION_DAYS_AHEAD:-30}
       INGESTION_NIGHTS: ${INGESTION_NIGHTS:-3}
+      INGESTION_DEMO_PAUSE_SECONDS: ${INGESTION_DEMO_PAUSE_SECONDS:-0}
     depends_on:
       migrator:
         condition: service_completed_successfully
